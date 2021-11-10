@@ -28,7 +28,7 @@ jobs:
           stack-version: "latest"
       - run: stack test --resolver ${{ matrix.resolver }}
   build-by-cabal:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04 # 古いUbuntuのバージョンでないと、古いGHCが動かないようです。
     strategy:
       fail-fast: false
       matrix:
