@@ -49,11 +49,11 @@ import qualified Text.Show.Unicode
 
 module Text.Show.Unicode (ushow, uprint, ushowWith, uprintWith) where
 
-import           Control.Applicative          ((<|>))
+import           Control.Applicative          hiding (many)
 import           Data.Char                    (isAscii, isPrint)
+import qualified Data.List                    as L
 import           Text.ParserCombinators.ReadP
 import           Text.Read.Lex                (lexChar)
-import qualified Data.List                     as L
 
 -- Represents a replaced character using its literal form and its escaped form.
 type Replacement = (String, String)
@@ -89,7 +89,7 @@ lexCharAndConsumeEmpties = lexChar <* consumeEmpties
         rest <- look
         case rest of
             ('\\':'&':_) -> string "\\&" >> consumeEmpties
-            _ -> return ()
+            _            -> return ()
 
 -- | Show the input, and then replace Haskell character literals
 -- with the character it represents, for any Unicode printable characters except backslash, single and double quotation marks.
