@@ -1,7 +1,7 @@
 name: build
 on: [push, pull_request]
 jobs:
-  build:
+  build-by-stack:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -19,12 +19,49 @@ jobs:
           - lts-16
           - lts-17
           - lts-18
-    name: Haskell GHC ${{ matrix.resolver }} build
+    name: Stack by resolver is ${{ matrix.resolver }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: haskell/actions/setup@v1
+        with:
+          enable-stack: true
+          stack-version: "latest"
+      - run: stack test --resolver ${{ matrix.resolver }}
+  build-by-cabal:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ghc:
+          - 7.4.1
+          - 7.4.2
+          - 7.6.3
+          - 7.8.4
+          - 7.10.3
+          - 8.0.2
+          - 8.2.2
+          - 8.4.1
+          - 8.4.2
+          - 8.4.3
+          - 8.4.4
+          - 8.6.1
+          - 8.6.2
+          - 8.6.3
+          - 8.6.4
+          - 8.6.5
+          - 8.8.1
+          - 8.8.2
+          - 8.8.3
+          - 8.8.4
+          - 8.10.1
+          - 8.10.2
+          - 8.10.3
+          - 8.10.4
+          - 9.0.1
+    name: Cabal by GHC version is ${{ matrix.ghc }}
     steps:
       - uses: actions/checkout@v2
       - uses: haskell/actions/setup@v1
         with:
           ghc-version: ${{ matrix.ghc }}
-          enable-stack: true
-          stack-version: "latest"
-      - run: stack test --resolver ${{ matrix.resolver }}
+      - run: cabal test
