@@ -33,7 +33,6 @@ jobs:
       fail-fast: false
       matrix:
         ghc:
-          - 7.10.3
           - 8.0.2
           - 8.2.2
           - 8.4.1
@@ -66,3 +65,18 @@ jobs:
         with:
           ghc-version: ${{ matrix.ghc }}
       - run: cabal test
+  build-by-cabal-of-old:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ghc:
+          - 7.10.3
+    name: Cabal by GHC version is ${{ matrix.ghc }}
+    steps:
+      - uses: actions/checkout@v2
+      - run: sudo apt-get install -y libnuma-dev
+      - uses: haskell/actions/setup@v1
+      - run: ghcup install ghc ${{ matrix.ghc }}
+      - run: ghcup set ghc ${{ matrix.ghc }}
+      - run: cabal test --ghc-option="-optl-no-pie"
