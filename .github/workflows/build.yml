@@ -66,7 +66,7 @@ jobs:
           ghc-version: ${{ matrix.ghc }}
       - run: cabal test
   build-by-cabal-of-old:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
       matrix:
