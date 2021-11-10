@@ -28,15 +28,11 @@ jobs:
           stack-version: "latest"
       - run: stack test --resolver ${{ matrix.resolver }}
   build-by-cabal:
-    runs-on: ubuntu-18.04 # 古いUbuntuのバージョンでないと、古いGHCが動かないようです。
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         ghc:
-          - 7.4.1
-          - 7.4.2
-          - 7.6.3
-          - 7.8.4
           - 7.10.3
           - 8.0.2
           - 8.2.2
@@ -57,7 +53,11 @@ jobs:
           - 8.10.2
           - 8.10.3
           - 8.10.4
+          - 8.10.5
+          - 8.10.6
+          - 8.10.7
           - 9.0.1
+          - latest
     name: Cabal by GHC version is ${{ matrix.ghc }}
     steps:
       - uses: actions/checkout@v2
