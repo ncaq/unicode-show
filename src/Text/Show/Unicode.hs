@@ -81,7 +81,11 @@ recoverChar p = represent <$> gather lexCharAndConsumeEmpties
 -- so consumeEmpties is a meaningless action,
 -- but it makes sense for older versions of lexChar.
 lexCharAndConsumeEmpties :: ReadP Char
-lexCharAndConsumeEmpties = lexChar <* consumeEmpties
+lexCharAndConsumeEmpties = do
+  -- When base 4.5, ReadP is not Applicative, but Monad.
+  result <- lexChar
+  consumeEmpties
+  return result
     where
     -- Consumes the string "\&" repeatedly and greedily (will only produce one match)
     consumeEmpties :: ReadP ()
