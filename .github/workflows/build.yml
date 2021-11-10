@@ -81,6 +81,6 @@ jobs:
       - uses: actions/checkout@v2
       - run: sudo apt-get install -y libnuma-dev
       - uses: haskell/actions/setup@v1
-      - run: ghcup install ghc ${{ matrix.ghc }}
-      - run: ghcup set ghc ${{ matrix.ghc }}
+        with:
+          ghc-version: ${{ matrix.ghc }}
       - run: cabal test --ghc-option="-optl-no-pie"
