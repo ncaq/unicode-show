@@ -1,6 +1,7 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
 
+import           Control.Monad         (when)
 import           Test.Hspec
 import           Test.Hspec.QuickCheck
 import           Text.Read             (readMaybe)
@@ -22,9 +23,7 @@ ushowTo f t = it ("ushow " ++ show f ++ " == " ++ t) $ t `shouldBe` ushow f
 -- ==> is not used because it will cause an error if there is no test case that can be executed.
 readUShowIsIdWhenOkPrelude :: (Eq a, Show a, Read a) => a -> Expectation
 readUShowIsIdWhenOkPrelude v =
-  if preludeOk
-  then ushowOk
-  else pure ()
+  when preludeOk ushowOk
   where preludeOk = readMaybe (show v) == Just v
         ushowOk = read (ushow v) `shouldBe` v
 
