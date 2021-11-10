@@ -64,6 +64,8 @@ jobs:
       - uses: haskell/actions/setup@v1
         with:
           ghc-version: ${{ matrix.ghc }}
+      - run: ghc --version
+      - run: cabal --version
       - run: cabal test
   build-by-cabal-of-old:
     runs-on: ubuntu-18.04
@@ -83,4 +85,6 @@ jobs:
       - uses: haskell/actions/setup@v1
         with:
           ghc-version: ${{ matrix.ghc }}
+      - run: ghc --version
+      - run: cabal --version
       - run: cabal test --ghc-option="-optl-no-pie"
